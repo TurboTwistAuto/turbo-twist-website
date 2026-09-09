@@ -2,9 +2,9 @@
 //
 // This server takes a country + type (import/export), asks Claude
 // (with the web_search tool) to find REAL vehicle importer/exporter
-// companies for that country, and returns only companies + emails
-// that were actually found on the public web. It never invents an
-// email — if none is publicly listed, that company is left out.
+// companies for that country. It never invents an email — if none is
+// publicly listed, the company still shows up with its website or a
+// "no public email found" note instead of being dropped.
 //
 // Setup:
 //   1. npm install
@@ -55,11 +55,12 @@ app.post("/api/search-companies", async (req, res) => {
     const prompt = `Search the web to find real, currently operating companies that are ${roleWord} of vehicles (cars, vans, trucks, motorcycles — not spare parts) in ${country}.
 
 Rules:
-- Only include a company if you find an actual public contact email for it (on its official website, business directory listing, or similar public source).
-- Never guess, construct, or infer an email address. If you cannot find a real published email for a company, leave that company out entirely.
-- Return between 3 and 10 companies if that many genuinely have public emails; fewer is fine and better than making one up.
+- Include a company as long as you find its real name and, ideally, its official website — from its own site, a business directory listing, or a similar public source.
+- If you also find a public contact email for the company, include it. If you cannot find one, that is fine — still include the company, just leave the email blank.
+- Never guess, construct, or infer an email address. An email must be one you actually found published somewhere.
+- Return between 3 and 10 companies if that many genuinely operate in this space; fewer is fine.
 - Respond with ONLY a JSON array, no other text, no markdown code fences. Each item must look like:
-  {"company": "Company Name", "email": "real@email.found", "sourceNote": "brief note on where this was found, e.g. company website contact page"}`;
+  {"company": "Company Name", "website": "https://example.com or empty string if not found", "email": "real@email.found or empty string if not found", "sourceNote": "brief note on where this was found"}`;
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -92,7 +93,10 @@ Rules:
 
     let companies = [];
     try {
-      const cleaned = textBlocks.replace(/```json|```/g, "").trim();
+      // The model sometimes writes a sentence before/after the JSON array
+      // even when told not to — pull out just the [...] part defensively.
+      const match = textBlocks.match(/\[[\s\S]*\]/);
+      const cleaned = (match ? match[0] : textBlocks).replace(/```json|```/g, "").trim();
       companies = JSON.parse(cleaned);
       if (!Array.isArray(companies)) companies = [];
     } catch (parseErr) {
@@ -100,12 +104,14 @@ Rules:
       companies = [];
     }
 
-    // Basic sanity filter: require a company name and an email with an "@".
+    // Only requirement now: a real company name. Email and website are
+    // both optional — never invent either, just show what was found.
     const results = companies
-      .filter((c) => c && typeof c.company === "string" && typeof c.email === "string" && c.email.includes("@"))
+      .filter((c) => c && typeof c.company === "string" && c.company.trim().length > 0)
       .map((c) => ({
-        company: c.company,
-        email: c.email,
+        company: c.company.trim(),
+        email: typeof c.email === "string" ? c.email.trim() : "",
+        website: typeof c.website === "string" ? c.website.trim() : "",
         country,
         type,
         sourceNote: c.sourceNote || ""
