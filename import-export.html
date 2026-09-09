@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Import &amp; Export Directory — Turbo Twist Auto</title>
+<link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14161a;
+    --panel:#1b1e24;
+    --line:#2b2f37;
+    --metal:#9aa1ac;
+    --text:#edeff2;
+    --blue:#2fa8e0;
+    --amber:#ffb020;
+    --gold:#d4af37;
+    --red:#e05353;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.brand{
+    font-family:'Oswald',sans-serif;
+    letter-spacing:0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- NAV (matches main site) ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(20,22,26,0.9);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{display:flex;align-items:center;justify-content:space-between;height:96px;}
+  .brand{
+    font-size:1.55rem;font-weight:600;color:var(--text);
+    display:flex;align-items:center;gap:14px;
+    letter-spacing:0.015em;
+  }
+  .logo-img{
+    width:56px;height:56px;border-radius:50%;object-fit:cover;
+    border:2px solid var(--gold);
+    box-shadow:0 0 0 3px rgba(212,175,55,0.15), 0 4px 14px rgba(0,0,0,0.45);
+  }
+  .navlinks{display:flex;gap:36px;font-size:0.95rem;color:var(--metal);}
+  .navlinks a{transition:color 0.2s;}
+  .navlinks a:hover{color:var(--text);}
+  .navlinks a.active{color:var(--blue);}
+  .navbtn{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+  .navbtn span{width:22px;height:2px;background:var(--text);display:block;}
+
+  /* ---------- PAGE HEAD ---------- */
+  .pagehead{
+    padding:72px 0 48px;border-bottom:1px solid var(--line);
+    background:radial-gradient(circle at 82% 20%, rgba(47,168,224,0.10), transparent 45%);
+  }
+  .kicker{color:var(--blue);font-size:0.85rem;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+  .kicker::before{content:"";width:28px;height:2px;background:var(--gold);display:inline-block;}
+  .pagehead h1{font-size:clamp(2rem,4.2vw,2.9rem);font-weight:700;}
+  .pagehead p{margin-top:14px;color:var(--metal);max-width:60ch;}
+
+  /* ---------- SEARCH PANELS ---------- */
+  .section{padding:56px 0;}
+  .panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border:1px solid var(--line);}
+  .panel{background:var(--panel);padding:32px;}
+  .panel h2{font-size:1.25rem;font-weight:600;display:flex;align-items:center;gap:10px;}
+  .panel h2 .dot{width:10px;height:10px;border-radius:50%;}
+  .panel.import h2 .dot{background:var(--blue);}
+  .panel.export h2 .dot{background:var(--amber);}
+  .panel p.desc{color:var(--metal);font-size:0.88rem;margin-top:8px;}
+  .field{margin-top:20px;}
+  .field label{display:block;font-size:0.75rem;color:var(--gold);letter-spacing:0.06em;font-weight:600;margin-bottom:8px;}
+  select, input[type="text"]{
+    width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--line);
+    color:var(--text);font-family:'Inter',sans-serif;font-size:0.95rem;border-radius:2px;
+  }
+  select:focus, input:focus{outline:none;border-color:var(--blue);}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:13px 26px;font-weight:600;font-size:0.9rem;
+    border-radius:2px;border:none;cursor:pointer;transition:transform 0.15s, background 0.15s;width:100%;justify-content:center;
+  }
+  .panel.import .btn{background:var(--blue);color:#0c1116;}
+  .panel.import .btn:hover{background:#4fb9e8;}
+  .panel.export .btn{background:var(--amber);color:#1a1400;}
+  .panel.export .btn:hover{background:#ffc352;}
+  .btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+  /* ---------- RESULTS ---------- */
+  .results-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:52px;}
+  .results-head h2{font-size:1.4rem;font-weight:600;}
+  .results-meta{font-size:0.85rem;color:var(--metal);}
+  .status-badge{
+    display:inline-block;padding:4px 10px;font-size:0.72rem;font-weight:600;letter-spacing:0.05em;
+    border-radius:2px;margin-left:8px;
+  }
+  .status-badge.demo{background:rgba(212,175,55,0.15);color:var(--gold);border:1px solid rgba(212,175,55,0.35);}
+
+  .table-wrap{margin-top:20px;border:1px solid var(--line);overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;min-width:640px;}
+  thead th{
+    text-align:left;font-size:0.75rem;letter-spacing:0.06em;color:var(--gold);
+    background:var(--panel);padding:14px 18px;border-bottom:1px solid var(--line);font-weight:600;
+  }
+  tbody td{padding:14px 18px;border-bottom:1px solid var(--line);font-size:0.92rem;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:rgba(255,255,255,0.02);}
+  .type-pill{
+    display:inline-block;padding:3px 10px;font-size:0.7rem;font-weight:600;border-radius:12px;letter-spacing:0.04em;
+  }
+  .type-pill.import{background:rgba(47,168,224,0.15);color:var(--blue);}
+  .type-pill.export{background:rgba(255,176,32,0.15);color:var(--amber);}
+  .empty-state, .loading-state, .error-state{
+    padding:48px 20px;text-align:center;color:var(--metal);border:1px dashed var(--line);margin-top:20px;
+  }
+  .error-state{color:var(--red);border-color:rgba(224,83,83,0.3);}
+  .mailto-btn{color:var(--blue);font-size:0.85rem;}
+  .mailto-btn:hover{text-decoration:underline;}
+
+  .config-note{
+    margin-top:52px;padding:24px 28px;border:1px solid var(--line);border-left:2px solid var(--gold);
+    background:var(--panel);font-size:0.88rem;color:var(--metal);
+  }
+  .config-note code{background:var(--bg);padding:2px 6px;border-radius:2px;color:var(--amber);font-size:0.85em;}
+
+  footer{padding:36px 0;border-top:1px solid var(--line);}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;color:var(--metal);font-size:0.85rem;flex-wrap:wrap;gap:10px;}
+
+  @media (max-width:820px){
+    .panel-grid{grid-template-columns:1fr;}
+    .navlinks{
+      position:absolute;top:96px;left:0;right:0;background:var(--bg);
+      border-bottom:1px solid var(--line);flex-direction:column;padding:20px 28px;gap:18px;
+      display:none;
+    }
+    .navlinks.open{display:flex;}
+    .navbtn{display:flex;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="index.html" class="brand"><img src="assets/logo.jpg" alt="Turbo Twist Auto logo" class="logo-img">Turbo Twist Auto</a>
+    <div class="navlinks" id="navlinks">
+      <a href="index.html#home">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#services">Services</a>
+      <a href="import-export.html" class="active">Import / Export</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <button class="navbtn" id="navbtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<section class="pagehead">
+  <div class="wrap">
+    <div class="kicker">TRADE DIRECTORY</div>
+    <h1>Import &amp; Export Company Search</h1>
+    <p>Pick a country and search separately for vehicle importer or vehicle exporter. Results pull names and contact emails from our trade data source.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+
+    <div class="panel-grid">
+      <div class="panel import">
+        <h2><span class="dot"></span>Import Search</h2>
+        <p class="desc">Find importer that import vehicles into a selected country.</p>
+        <div class="field">
+          <label for="importCountry">Country</label>
+          <select id="importCountry">
+            <option value="">Select a country…</option>
+          </select>
+        </div>
+        <button class="btn" id="importBtn">Search Importers</button>
+      </div>
+
+      <div class="panel export">
+        <h2><span class="dot"></span>Export Search</h2>
+        <p class="desc">Find exporter that export vehicles from a selected country.</p>
+        <div class="field">
+          <label for="exportCountry">Country</label>
+          <select id="exportCountry">
+            <option value="">Select a country…</option>
+          </select>
+        </div>
+        <button class="btn" id="exportBtn">Search Exporters</button>
+      </div>
+    </div>
+
+    <div id="resultsBlock" style="display:none;">
+      <div class="results-head">
+        <h2>Results <span id="resultsBadge"></span></h2>
+        <div class="results-meta" id="resultsMeta"></div>
+      </div>
+
+      <div id="resultsArea"></div>
+    </div>
+
+    <div class="config-note">
+      <strong style="color:var(--text);">Note on data:</strong> This page currently shows demo/sample results because no backend is connected yet. It's designed to work with a small AI-search backend (included separately as <code>backend/</code>) that uses Claude with web search to find real companies and their publicly listed emails — never invented ones. Deploy that backend, then set its URL in <code>TRADE_API_CONFIG</code> near the top of the script below. See <code>backend/README.md</code> for full deploy steps.
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand" style="font-size:1.15rem;"><img src="assets/logo.jpg" alt="Turbo Twist Auto logo" class="logo-img" style="width:40px;height:40px;">Turbo Twist Auto</div>
+    <div>© 2026 Turbo Twist Auto. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const navbtn = document.getElementById('navbtn');
+  const navlinks = document.getElementById('navlinks');
+  navbtn.addEventListener('click', () => navlinks.classList.toggle('open'));
+  navlinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navlinks.classList.remove('open')));
+
+  // ---------------------------------------------------------------
+  // TRADE_API_CONFIG — point this at your deployed backend
+  // (see backend/README.md). Never put a real Anthropic API key here —
+  // it stays server-side only.
+  // ---------------------------------------------------------------
+  const TRADE_API_CONFIG = {
+    endpoint: "",   // e.g. "https://your-backend.onrender.com/api/search-companies"
+    apiKey: ""      // leave blank — the backend holds the real key
+  };
+
+  const COUNTRIES = [
+    "Sri Lanka","India","China","Japan","South Korea","Singapore","UAE",
+    "United Kingdom","Germany","United States","Thailand","Malaysia",
+    "Australia","South Africa","Pakistan"
+  ];
+
+  function populateCountries(selectEl){
+    COUNTRIES.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      selectEl.appendChild(opt);
+    });
+  }
+  populateCountries(document.getElementById('importCountry'));
+  populateCountries(document.getElementById('exportCountry'));
+
+  // Demo dataset used only when TRADE_API_CONFIG.endpoint is empty,
+  // so the page has something to show before a real API is connected.
+  function demoCompanies(type, country){
+    const base = [
+      { name: "AutoLine Vehicle Traders", domain: "autolinetraders.com" },
+      { name: "Global Motors Co.", domain: "globalmotors.com" },
+      { name: "Precision Drive Imports", domain: "precisiondrive.com" },
+      { name: "Turbine Auto Group", domain: "turbineauto.com" },
+      { name: "Eastway Vehicle Exports", domain: "eastwayvehicles.com" }
+    ];
+    return base.map((b, i) => ({
+      company: b.name,
+      email: `contact${i + 1}@${b.domain}`,
+      country,
+      type
+    }));
+  }
+
+  async function fetchTradeData(type, country){
+    if (!TRADE_API_CONFIG.endpoint) {
+      // No live API connected yet — return demo data after a short delay.
+      await new Promise(res => setTimeout(res, 500));
+      return { demo: true, results: demoCompanies(type, country) };
+    }
+    const res = await fetch(TRADE_API_CONFIG.endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type, country })
+    });
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
+    const data = await res.json();
+    // Adjust this mapping to match your provider's actual response shape.
+    return { demo: false, results: data.results || [] };
+  }
+
+  function renderResults(type, country, payload){
+    const area = document.getElementById('resultsArea');
+    const badge = document.getElementById('resultsBadge');
+    const meta = document.getElementById('resultsMeta');
+
+    badge.innerHTML = payload.demo ? '<span class="status-badge demo">DEMO DATA</span>' : '';
+    meta.textContent = `${payload.results.length} companies · ${country} · ${type === 'import' ? 'Importers' : 'Exporters'}`;
+
+    if (!payload.results.length) {
+      area.innerHTML = '<div class="empty-state">No companies found for that search.</div>';
+      return;
+    }
+
+    const rows = payload.results.map(r => `
+      <tr>
+        <td>${r.company}</td>
+        <td><a class="mailto-btn" href="mailto:${r.email}">${r.email}</a></td>
+        <td>${r.country}</td>
+        <td><span class="type-pill ${r.type}">${r.type === 'import' ? 'Importer' : 'Exporter'}</span></td>
+      </tr>
+    `).join('');
+
+    area.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Company</th><th>Email</th><th>Country</th><th>Type</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  async function runSearch(type){
+    const countryEl = document.getElementById(type + 'Country');
+    const btn = document.getElementById(type + 'Btn');
+    const area = document.getElementById('resultsArea');
+    const resultsBlock = document.getElementById('resultsBlock');
+    const country = countryEl.value;
+
+    resultsBlock.style.display = 'block';
+
+    if (!country) {
+      area.innerHTML = '<div class="error-state">Please select a country first.</div>';
+      return;
+    }
+
+    btn.disabled = true;
+    const originalLabel = btn.textContent;
+    btn.textContent = 'Searching…';
+    area.innerHTML = '<div class="loading-state">Loading companies…</div>';
+
+    try {
+      const payload = await fetchTradeData(type, country);
+      renderResults(type, country, payload);
+    } catch (err) {
+      area.innerHTML = `<div class="error-state">Couldn't load results: ${err.message}</div>`;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+    }
+  }
+
+  document.getElementById('importBtn').addEventListener('click', () => runSearch('import'));
+  document.getElementById('exportBtn').addEventListener('click', () => runSearch('export'));
+</script>
+
+</body>
+</html>
