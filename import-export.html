@@ -35,7 +35,6 @@
   a{color:inherit;text-decoration:none;}
   .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
 
-  /* ---------- NAV (matches main site) ---------- */
   header{
     position:sticky;top:0;z-index:50;
     background:rgba(20,22,26,0.9);
@@ -60,7 +59,6 @@
   .navbtn{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
   .navbtn span{width:22px;height:2px;background:var(--text);display:block;}
 
-  /* ---------- PAGE HEAD ---------- */
   .pagehead{
     padding:72px 0 48px;border-bottom:1px solid var(--line);
     background:radial-gradient(circle at 82% 20%, rgba(47,168,224,0.10), transparent 45%);
@@ -70,7 +68,6 @@
   .pagehead h1{font-size:clamp(2rem,4.2vw,2.9rem);font-weight:700;}
   .pagehead p{margin-top:14px;color:var(--metal);max-width:60ch;}
 
-  /* ---------- SEARCH PANELS ---------- */
   .section{padding:56px 0;}
   .panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border:1px solid var(--line);}
   .panel{background:var(--panel);padding:32px;}
@@ -96,7 +93,6 @@
   .panel.export .btn:hover{background:#ffc352;}
   .btn:disabled{opacity:0.6;cursor:not-allowed;}
 
-  /* ---------- RESULTS ---------- */
   .results-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:52px;}
   .results-head h2{font-size:1.4rem;font-weight:600;}
   .results-meta{font-size:0.85rem;color:var(--metal);}
@@ -124,8 +120,10 @@
     padding:48px 20px;text-align:center;color:var(--metal);border:1px dashed var(--line);margin-top:20px;
   }
   .error-state{color:var(--red);border-color:rgba(224,83,83,0.3);}
-  .mailto-btn{color:var(--blue);font-size:0.85rem;}
-  .mailto-btn:hover{text-decoration:underline;}
+  .contact-link{color:var(--blue);font-size:0.85rem;}
+  .contact-link:hover{text-decoration:underline;}
+  .contact-none{color:var(--metal);font-size:0.85rem;font-style:italic;}
+  .contact-stack{display:flex;flex-direction:column;gap:3px;}
 
   .config-note{
     margin-top:52px;padding:24px 28px;border:1px solid var(--line);border-left:2px solid var(--gold);
@@ -168,7 +166,7 @@
   <div class="wrap">
     <div class="kicker">TRADE DIRECTORY</div>
     <h1>Import &amp; Export Company Search</h1>
-    <p>Pick a country and search separately for vehicle importer or vehicle exporter. Results pull names and contact emails from our trade data source.</p>
+    <p>Pick a country and search separately for vehicle importer or vehicle exporter. Results pull names and contact details from our trade data source.</p>
   </div>
 </section>
 
@@ -211,7 +209,7 @@
     </div>
 
     <div class="config-note">
-      <strong style="color:var(--text);">Note on data:</strong> This page currently shows demo/sample results because no backend is connected yet. It's designed to work with a small AI-search backend (included separately as <code>backend/</code>) that uses Claude with web search to find real companies and their publicly listed emails — never invented ones. Deploy that backend, then set its URL in <code>TRADE_API_CONFIG</code> near the top of the script below. See <code>backend/README.md</code> for full deploy steps.
+      <strong style="color:var(--text);">Note on data:</strong> Companies are found using Claude with live web search. A company is included as soon as we find its real name and, where possible, its website — a public email is shown only if one was actually found; it is never invented. Backend: <code>TRADE_API_CONFIG</code> near the top of the script below.
     </div>
 
   </div>
@@ -231,12 +229,11 @@
   navlinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navlinks.classList.remove('open')));
 
   // ---------------------------------------------------------------
-  // TRADE_API_CONFIG — point this at your deployed backend
-  // (see backend/README.md). Never put a real Anthropic API key here —
-  // it stays server-side only.
+  // TRADE_API_CONFIG — points at the deployed backend (see backend/README.md).
+  // Never put a real Anthropic API key here — it stays server-side only.
   // ---------------------------------------------------------------
   const TRADE_API_CONFIG = {
-    endpoint: "https://turbo-twist-backend.onrender.com/api/search-companies",   // e.g. "https://your-backend.onrender.com/api/search-companies"
+    endpoint: "https://turbo-twist-backend.onrender.com/api/search-companies",
     apiKey: ""      // leave blank — the backend holds the real key
   };
 
@@ -260,15 +257,16 @@
   // so the page has something to show before a real API is connected.
   function demoCompanies(type, country){
     const base = [
-      { name: "AutoLine Vehicle Traders", domain: "autolinetraders.com" },
-      { name: "Global Motors Co.", domain: "globalmotors.com" },
-      { name: "Precision Drive Imports", domain: "precisiondrive.com" },
-      { name: "Turbine Auto Group", domain: "turbineauto.com" },
-      { name: "Eastway Vehicle Exports", domain: "eastwayvehicles.com" }
+      { name: "AutoLine Vehicle Traders", domain: "autolinetraders.com", hasEmail: true },
+      { name: "Global Motors Co.", domain: "globalmotors.com", hasEmail: false },
+      { name: "Precision Drive Imports", domain: "precisiondrive.com", hasEmail: true },
+      { name: "Turbine Auto Group", domain: "turbineauto.com", hasEmail: false },
+      { name: "Eastway Vehicle Exports", domain: "eastwayvehicles.com", hasEmail: true }
     ];
     return base.map((b, i) => ({
       company: b.name,
-      email: `contact${i + 1}@${b.domain}`,
+      email: b.hasEmail ? `contact${i + 1}@${b.domain}` : "",
+      website: `https://${b.domain}`,
       country,
       type
     }));
@@ -276,7 +274,6 @@
 
   async function fetchTradeData(type, country){
     if (!TRADE_API_CONFIG.endpoint) {
-      // No live API connected yet — return demo data after a short delay.
       await new Promise(res => setTimeout(res, 500));
       return { demo: true, results: demoCompanies(type, country) };
     }
@@ -287,8 +284,22 @@
     });
     if (!res.ok) throw new Error(`API error: ${res.status}`);
     const data = await res.json();
-    // Adjust this mapping to match your provider's actual response shape.
     return { demo: false, results: data.results || [] };
+  }
+
+  function contactCellHtml(r){
+    const parts = [];
+    if (r.email) {
+      parts.push(`<a class="contact-link" href="mailto:${r.email}">${r.email}</a>`);
+    }
+    if (r.website) {
+      const label = r.website.replace(/^https?:\/\//, '');
+      parts.push(`<a class="contact-link" href="${r.website}" target="_blank" rel="noopener">${label}</a>`);
+    }
+    if (!parts.length) {
+      return `<span class="contact-none">No public contact found</span>`;
+    }
+    return `<div class="contact-stack">${parts.join('')}</div>`;
   }
 
   function renderResults(type, country, payload){
@@ -307,7 +318,7 @@
     const rows = payload.results.map(r => `
       <tr>
         <td>${r.company}</td>
-        <td><a class="mailto-btn" href="mailto:${r.email}">${r.email}</a></td>
+        <td>${contactCellHtml(r)}</td>
         <td>${r.country}</td>
         <td><span class="type-pill ${r.type}">${r.type === 'import' ? 'Importer' : 'Exporter'}</span></td>
       </tr>
@@ -316,7 +327,7 @@
     area.innerHTML = `
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Company</th><th>Email</th><th>Country</th><th>Type</th></tr></thead>
+          <thead><tr><th>Company</th><th>Contact</th><th>Country</th><th>Type</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
