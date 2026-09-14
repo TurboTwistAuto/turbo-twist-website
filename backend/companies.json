@@ -1,0 +1,119 @@
+{
+  "japan": {
+    "export": [
+      { "company": "Be Forward Co., Ltd.", "website": "https://www.beforward.jp", "email": "", "sourceNote": "Major Japanese used vehicle exporter, ships worldwide" },
+      { "company": "SBT Japan", "website": "https://www.sbtjapan.com", "email": "", "sourceNote": "Large used car exporter with offices in 15+ countries" },
+      { "company": "Kanto Cars Co. Ltd.", "website": "https://www.kantocars.com", "email": "", "sourceNote": "Used cars, trucks and vehicle exporter, buys from Japanese auctions" },
+      { "company": "Sanuki Corporation", "website": "https://www.sanukicorporation.com", "email": "", "sourceNote": "Exports used and new vehicles, machinery, and components" },
+      { "company": "Autocom Japan Inc.", "website": "https://autocj.co.jp", "email": "", "sourceNote": "Exports high quality used cars worldwide from Japan" },
+      { "company": "AA Japan", "website": "https://aajapancars.com", "email": "", "sourceNote": "20+ years exporting used Japanese vehicles worldwide" }
+    ]
+  },
+  "sri lanka": {
+    "import": [
+      { "company": "Overland Automobiles (Pvt) Ltd", "website": "https://overlandautomobiles.lk", "email": "info@overlandautomobiles.lk", "sourceNote": "Premium car dealer/importer, Colombo" },
+      { "company": "Ramanayake Automobiles", "website": "https://www.rama-auto.com", "email": "", "sourceNote": "Japanese used car importer, 35+ years, Ratmalana" },
+      { "company": "AA Japan (Sri Lanka)", "website": "https://lk.aajapancars.com", "email": "", "sourceNote": "Imports used Japanese vehicles to Sri Lanka" },
+      { "company": "DRS Auto International", "website": "https://drsjapancars.com", "email": "", "sourceNote": "Japan car importer based in Kegalle, 13+ years" },
+      { "company": "Kasun Auto Traders", "website": "https://www.facebook.com/share/1GK5VkPgCi/?mibextid=wwXIfr", "email": "kasunautotraders@gmail.com", "sourceNote": "Vehicle importer, Sri Lanka (Facebook page)" }
+    ]
+  },
+  "india": {
+    "export": [
+      { "company": "Maruti Suzuki India Ltd.", "website": "https://www.marutisuzuki.com", "email": "", "sourceNote": "Top vehicle exporter from India by volume" },
+      { "company": "Hyundai Motor India Ltd.", "website": "https://www.hyundai.com/in", "email": "", "sourceNote": "Major India-based vehicle exporter" },
+      { "company": "Kia India", "website": "https://www.kia.com/in", "email": "", "sourceNote": "Manufactures and exports vehicles from India" },
+      { "company": "Tata Motors Ltd.", "website": "https://www.tatamotors.com", "email": "", "sourceNote": "Indian manufacturer exporting cars and commercial vehicles" },
+      { "company": "Horizon Enterprise", "website": "https://www.horizonmotorsindia.com", "email": "", "sourceNote": "Exports two/three/four-wheelers from India worldwide" }
+    ]
+  },
+  "china": {
+    "export": [
+      { "company": "EAuto Export", "website": "https://www.eautoexport.com", "email": "", "sourceNote": "Beijing-based exporter of new, used and electric Chinese cars" },
+      { "company": "AutoCango", "website": "https://www.autocango.com", "email": "", "sourceNote": "Shanghai-based car export platform and marketplace" },
+      { "company": "YD Chinauto", "website": "https://www.ydchinauto.com", "email": "", "sourceNote": "Exports EVs and gasoline cars from China, wholesale" },
+      { "company": "ZEEX Auto", "website": "https://www.zeexauto.com", "email": "", "sourceNote": "Guangzhou-based used car and EV export company" }
+    ]
+  },
+  "south korea": {
+    "export": [
+      { "company": "SEOBUK International", "website": "https://seobuk.org", "email": "", "sourceNote": "Incheon-based exporter, 35,000+ cars exported since 2015" },
+      { "company": "Korea Auto Export", "website": "https://kautoexport.com", "email": "", "sourceNote": "Exports used and new Korean vehicles worldwide" },
+      { "company": "PICKPLUS Co., Ltd.", "website": "https://www.pickpluscar.com", "email": "", "sourceNote": "Korea International Trade Association member exporter" },
+      { "company": "River Trading Co., Ltd.", "website": "https://rivercar.net", "email": "", "sourceNote": "Korean used car exporting company" }
+    ]
+  },
+  "singapore": {
+    "export": [
+      { "company": "Prestige Auto Export Pte Ltd", "website": "https://www.prestigeautos.com.sg", "email": "", "sourceNote": "Singapore used car exporter since 2007" },
+      { "company": "Used Car Export Singapore (The Car Enthusiast Pte Ltd)", "website": "https://www.usedcarexport.sg", "email": "", "sourceNote": "Exports used cars to Africa, Caribbean, NZ, UK etc." }
+    ]
+  },
+  "uae": {
+    "export": [
+      { "company": "Al Rawnaq Motors", "website": "https://alrawnaqmotors.com", "email": "", "sourceNote": "Dubai-based licensed exporter, ships to 150+ countries" },
+      { "company": "Steer Well Auto", "website": "https://steerwellauto.com", "email": "sale3@steerwellauto.com", "sourceNote": "Dubai export car dealer, since 1984" },
+      { "company": "Mursalin Motors FZCO", "website": "https://mursalinmotors.com", "email": "", "sourceNote": "Imports/exports new and used vehicles, Dubai" },
+      { "company": "CAM Auto Trading", "website": "https://www.camauto-dubai.com", "email": "", "sourceNote": "Dubai new car exporter, established 2009" },
+      { "company": "AG Auto Trading Company", "website": "https://agautotrading.com", "email": "", "sourceNote": "Dubai car exporter to Africa, Europe, Asia, South America" }
+    ]
+  },
+  "united kingdom": {
+    "import": [
+      { "company": "My Car Import", "website": "https://mycarimport.co.uk", "email": "", "sourceNote": "UK's leading car importer, DVLA/IVA testing specialist" },
+      { "company": "ShipMyCar", "website": "https://www.shipmycar.co.uk", "email": "", "sourceNote": "Imports vehicles to UK from USA, Japan, Europe" },
+      { "company": "Car Imports Direct Ltd", "website": "https://www.car-imports-direct.com", "email": "", "sourceNote": "UK importer specialising in used vehicles from Japan, since 1996" },
+      { "company": "The Car Import", "website": "https://thecarimport.co.uk", "email": "info@thecarimport.co.uk", "sourceNote": "Car import, customs clearance, DVLA registration" },
+      { "company": "AA Car Import Customs Clearance", "website": "https://aacarimportcustomsclearance.co.uk", "email": "cars@aacarimportcustomsclearance.co.uk", "sourceNote": "Customs clearance for vehicles imported from EU to UK" }
+    ]
+  },
+  "germany": {
+    "export": [
+      { "company": "OVICARS", "website": "https://ovicars.de", "email": "", "sourceNote": "Independent luxury car dealer/exporter since 1989, Mercedes/Land Rover/Tesla" },
+      { "company": "Car Export Germany", "website": "http://carexportgermany.com", "email": "", "sourceNote": "Sources and ships German cars worldwide" }
+    ]
+  },
+  "united states": {
+    "export": [
+      { "company": "Auto4Export LLC", "website": "https://www.auto4export.com", "email": "sales@auto4export.com", "sourceNote": "Licensed used car dealer since 2009, auction sourcing and export" },
+      { "company": "USAutoExport", "website": "https://usautoexport.com", "email": "info@usautoexport.com", "sourceNote": "Lansing, MI based vehicle export company" },
+      { "company": "Soho Export USA (SohoGlobal LLC)", "website": "https://sohoexport.com", "email": "sohoexportusa@gmail.com", "sourceNote": "B2B brokerage sourcing/exporting vehicles from USA" },
+      { "company": "Car Exports USA", "website": "https://carexportsusa.com", "email": "", "sourceNote": "25 years experience exporting cars from USA" }
+    ]
+  },
+  "thailand": {
+    "export": [
+      { "company": "Used4x4 (Mark Motors Thailand)", "website": "https://markmotorsthailand.com", "email": "markpickups@gmail.com", "sourceNote": "Exports used 4x4 and pickup trucks from Thailand" },
+      { "company": "Thai Car Export", "website": "https://thaicarexport.com", "email": "", "sourceNote": "Exports EVs, SUVs, pickups, Japanese and Malaysian cars" },
+      { "company": "Pace Motors Thailand", "website": "https://www.pacemotorsthailand.com", "email": "", "sourceNote": "Bangkok-based RHD & LHD vehicle exporter" }
+    ]
+  },
+  "malaysia": {
+    "import": [
+      { "company": "D'Concept (CarGuru)", "website": "https://www.carguru.my", "email": "carguru.mail@gmail.com", "sourceNote": "Recond car importer, stock from Japan, UK, Australia" },
+      { "company": "GoatCar Import", "website": "https://www.goatcar.com.my", "email": "goatcarimport@gmail.com", "sourceNote": "Kuala Lumpur recon car dealer, imports from UK, Japan, Australia" },
+      { "company": "Direct Car Import Sdn Bhd", "website": "https://www.carimport.my", "email": "", "sourceNote": "Klang-based importer from Japan, UK, Australia" }
+    ]
+  },
+  "australia": {
+    "import": [
+      { "company": "Road Rage Industries", "website": "https://www.roadrageindustries.com.au", "email": "sales@roadrageindustries.com.au", "sourceNote": "Leading American vehicle importer, Queensland" },
+      { "company": "Garage Apex", "website": "https://garageapex.com.au", "email": "", "sourceNote": "Import vehicle compliance centre, imports from Japan" },
+      { "company": "J-Spec Imports", "website": "https://www.j-spec.com.au", "email": "", "sourceNote": "27 years importing/sourcing JDM cars to Australia" },
+      { "company": "Fabcar Australia", "website": "https://www.fabcar.com.au", "email": "", "sourceNote": "Importer of JDM, European exotics, classic cars since late 60s" }
+    ]
+  },
+  "south africa": {
+    "import": [
+      { "company": "SA Car Import Agency", "website": "https://www.sa-cia.com", "email": "info@sa-cia.com", "sourceNote": "End-to-end vehicle import/export shipping specialist" },
+      { "company": "Freight Factory", "website": "https://freightfactory.co.za", "email": "", "sourceNote": "Vehicle and general cargo import/export" },
+      { "company": "Africa AutoNet", "website": "https://autonetafrica.com", "email": "", "sourceNote": "Imports and distributes vehicles across South Africa's borders" }
+    ]
+  },
+  "pakistan": {
+    "import": [
+      { "company": "Pak Japan Motors Pvt. Ltd.", "website": "https://pakjapanmotors.com", "email": "", "sourceNote": "Japanese used car exporter/importer based in Pakistan and Japan" },
+      { "company": "Nichibo (Pakistan)", "website": "https://nichibojapan.com", "email": "", "sourceNote": "Imports cars from Japan auctions to Pakistan via Nichibo AutoSearch" }
+    ]
+  }
+}
